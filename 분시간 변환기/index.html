@@ -15,25 +15,24 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
     const root = document.getElementById("root")
-    function App(){
+    function MinutesToHours() {
         const [amount, setAmount] = React.useState("")
-        const [flipped, setFlipped] = React.useState(false) 
+        const [flipped, setFlipped] = React.useState(false)
         const handleChange = (e) => {
             setAmount(e.target.value)
         }
         const reset = () => {
             setAmount(0)
         }
-        function flip(){
+        function flip() {
             setFlipped((trueFalse) => !trueFalse)
             setAmount("")
         }
-        return(
+        return (
             <div>
-                <h2 className="hi">Super Converter</h2>    
                 <div>
                     <label htmlfor="minutes">분: </label>
-                    <input 
+                    <input
                         id="minutes"
                         placeholder="Minutes"
                         type="number"
@@ -44,7 +43,7 @@
                 </div>
                 <div>
                     <label htmlfor="hours">시간: </label>
-                    <input 
+                    <input
                         id="hours"
                         placeholder="hours"
                         type="number"
@@ -54,12 +53,76 @@
                     />
                 </div>
                 <button onClick={reset}>초기화</button>
-                <button onClick={flip}>변환</button>
+                <button onClick={flip}>{flipped ? "시간" : "분"}</button>
+            </div>
+        )
+    }
+    function WonToEn() {
+        const [money, setMoney] = React.useState("");
+        const [country, setContry] = React.useState(false)
+
+        const moneyChange = (e) => {
+            setMoney(e.target.value)
+        }
+        const reset = () => {
+            setMoney("");
+        }
+        const change = () => {
+            reset()
+            setContry((trueFalse) => !trueFalse)
+        }
+        return (
+            <div>
+                <div>
+                    <label htmlFor="won">원화: </label>
+                    <input 
+                        id="won"
+                        type="number"
+                        value={country ? Math.round(money * 0.11036) : money}
+                        onChange={moneyChange}
+                        disabled={country}
+                        placeholder="원화"
+                    />
+                </div>
+                <div>
+                    <label htmlFor="en">엔화: </label>
+                    <input  
+                        id="en"
+                        type="number"
+                        value={country ? money : Math.round(money / 0.11036)}
+                        onChange={moneyChange} 
+                        disabled={!country} 
+                        placeholder="엔화"
+                    />
+                </div>
+                <button onClick={reset}>초기화</button>
+                <button onClick={change}>변환</button>
+            </div>
+        )
+    }
+    function App() {
+        const [index, setIndex] = React.useState("0")
+        const onSelect = (e) => {
+            setIndex(e.target.value)
+        }
+
+        return (
+            <div>
+                <h1>Super Converter</h1>
+                <select value={index} onChange={onSelect}>
+                    <option value="xx">변환 메뉴를 선택해주세요</option>
+                    <option value="0">분 & 시간</option>
+                    <option value="1">원 & 엔화</option>
+                </select>
+                <hr />
+                {index === "xx" ? "Please select yours units" : null}
+                {index === "0" ? <MinutesToHours /> : null}
+                {index === "1" ? <WonToEn /> : null}
             </div>
 
         )
     }
-    ReactDOM.render(<App /> , root)
+    ReactDOM.render(<App />, root)
 </script>
 
 </html>
