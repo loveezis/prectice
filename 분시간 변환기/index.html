@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    const root = document.getElementById("root")
+    function App(){
+        const [amount, setAmount] = React.useState("")
+        const [flipped, setFlipped] = React.useState(false) 
+        const handleChange = (e) => {
+            setAmount(e.target.value)
+        }
+        const reset = () => {
+            setAmount(0)
+        }
+        function flip(){
+            setFlipped((trueFalse) => !trueFalse)
+            setAmount("")
+        }
+        return(
+            <div>
+                <h2 className="hi">Super Converter</h2>    
+                <div>
+                    <label htmlfor="minutes">분: </label>
+                    <input 
+                        id="minutes"
+                        placeholder="Minutes"
+                        type="number"
+                        value={flipped ? amount * 60 : amount}
+                        onChange={handleChange}
+                        disabled={flipped}
+                    />
+                </div>
+                <div>
+                    <label htmlfor="hours">시간: </label>
+                    <input 
+                        id="hours"
+                        placeholder="hours"
+                        type="number"
+                        value={flipped ? amount : Math.round(amount / 60)}
+                        onChange={handleChange}
+                        disabled={!flipped}
+                    />
+                </div>
+                <button onClick={reset}>초기화</button>
+                <button onClick={flip}>변환</button>
+            </div>
+
+        )
+    }
+    ReactDOM.render(<App /> , root)
+</script>
+
+</html>
